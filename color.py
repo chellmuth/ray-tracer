@@ -4,6 +4,10 @@ class RGBColor(object):
         return cls(1.0, 0.0, 0.0)
 
     @classmethod
+    def Blue(cls):
+        return cls(0.0, 0.0, 1.0)
+
+    @classmethod
     def Black(cls):
         return cls(0.0, 0.0, 0.0)
 

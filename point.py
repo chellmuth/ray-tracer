@@ -5,7 +5,7 @@ class Point3(object):
         self.z = z
 
     def dot(self, other):
-        return self.x * other.x + self.y * other.y + self.z + other.z
+        return self.x * other.x + self.y * other.y + self.z * other.z
 
     def __add__(self, other):
         return Point3(self.x + other.x, self.y + other.x, self.z + other.z)

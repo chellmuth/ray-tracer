@@ -11,21 +11,26 @@ class Geometry(object):
 class Intersection(object):
     @classmethod
     def Miss(cls):
-        return cls(False, None)
+        return cls(False, float('inf'), None)
 
     @classmethod
-    def Hit(cls, t):
-        return cls(True, t)
+    def Hit(cls, t, color):
+        return cls(True, t, color)
 
-    def __init__(self, is_hit, t):
+    def __init__(self, is_hit, t, color):
         self.is_hit = is_hit
         self.t = t
+        self.color = color
+
+    def is_closer(self, other):
+        return self.t < other.t
 
 
 class Sphere(Geometry):
-    def __init__(self, center, radius):
+    def __init__(self, center, radius, color):
         self.center = center
         self.radius = radius
+        self.color = color
 
     def intersect(self, ray):
         temp = ray.origin - self.center
@@ -42,11 +47,11 @@ class Sphere(Geometry):
         t = (-b - e) / denom
 
         if t > epsilon:
-            return Intersection.Hit(t)
+            return Intersection.Hit(t, self.color)
 
         t = (-b + e) / denom
         if t > epsilon:
-            return Intersection.Hit(t)
+            return Intersection.Hit(t, self.color)
 
         return Intersection.Miss()
 

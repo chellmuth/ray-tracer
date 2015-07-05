@@ -5,7 +5,7 @@ class Tracer(object):
         self.world = world
 
     def trace_ray(self, ray):
-        intersection =  self.world.sphere.intersect(ray)
+        intersection = self.world.ray_intersection(ray)
         if intersection.is_hit:
-            return RGBColor.Red()
+            return intersection.color
         return RGBColor.Black()

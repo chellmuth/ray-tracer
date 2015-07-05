@@ -1,7 +1,8 @@
 import numpy
 import scipy.misc
 
-from geometry import Sphere
+from color import RGBColor
+from geometry import Sphere, Intersection
 from point import Point3
 from ray import Ray
 from tracer import Tracer
@@ -11,8 +12,17 @@ class World(object):
     def __init__(self):
         self.tracer = Tracer(self)
         self.view_plane = ViewPlane()
-        self.sphere = Sphere(Point3(0.0, 0.0, 0.0), 85.0)
+        self.geometry = []
         self.data = numpy.zeros((self.view_plane.vres, self.view_plane.hres, 3), dtype=numpy.uint8 )
+
+        # self.add_geometry(Sphere(Point3(0.0, 0.0, 0.0), 85.0, RGBColor.Blue()))
+        # self.add_geometry(Sphere(Point3(20.0, 20.0, 200.0), 35.0, RGBColor.Red()))
+
+        self.add_geometry(Sphere(Point3(-20.0, 0.0, 0.0), 55.0, RGBColor.Blue()))
+        self.add_geometry(Sphere(Point3(0.0, 20.0, 0.0), 45.0, RGBColor.Red()))
+
+    def add_geometry(self, geometry):
+        self.geometry.append(geometry)
 
     def render_scene(self):
         zw = 100.0
@@ -28,6 +38,14 @@ class World(object):
                 ray = Ray(Point3(x, y, zw), Vector3(0, 0, -1))
                 color = self.tracer.trace_ray(ray)
                 self.display_pixel(row, col, color)
+
+    def ray_intersection(self, ray):
+        closest_intersection = Intersection.Miss()
+        for geometry in self.geometry:
+            intersection = geometry.intersect(ray)
+            if intersection.is_hit and intersection.is_closer(closest_intersection):
+                closest_intersection = intersection
+        return closest_intersection
 
     def display_pixel(self, row, col, color):
         self.data[row, col] = color.to_list()
