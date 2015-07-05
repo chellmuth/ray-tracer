@@ -1,0 +1,6 @@
+Pillow==2.9.0
+gnureadline==6.3.3
+ipython==3.2.0
+numpy==1.9.2
+scipy==0.15.1
+wsgiref==0.1.2
