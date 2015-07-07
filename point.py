@@ -1,3 +1,11 @@
+class Point2(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __repr__(self):
+        return "(%f, %f)" % (self.x, self.y)
+
 class Point3(object):
     def __init__(self, x, y, z):
         self.x = x

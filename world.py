@@ -5,12 +5,14 @@ from color import RGBColor
 from geometry import Sphere, Intersection
 from point import Point3
 from ray import Ray
+from sampler import Sampler
 from tracer import Tracer
 from vector import Vector3
 
 class World(object):
     def __init__(self):
         self.tracer = Tracer(self)
+        self.sampler = Sampler(25)
         self.view_plane = ViewPlane()
         self.geometry = []
         self.data = numpy.zeros((self.view_plane.vres, self.view_plane.hres, 3), dtype=numpy.uint8 )
@@ -32,11 +34,17 @@ class World(object):
         pixel_size = self.view_plane.pixel_size
         for row in range(hres):
             for col in range(vres):
-                x = pixel_size * (col - 0.5 * (hres - 1.0))
-                y = pixel_size * (row - 0.5 * (vres - 1.0))
+                color = RGBColor.Black()
+                samples = self.sampler.generate_samples()
+                for sample in samples:
+                    x = pixel_size * (col - 0.5 * hres + sample.x)
+                    y = pixel_size * (row - 0.5 * vres + sample.y)
 
-                ray = Ray(Point3(x, y, zw), Vector3(0, 0, -1))
-                color = self.tracer.trace_ray(ray)
+                    ray = Ray(Point3(x, y, zw), Vector3(0, 0, -1))
+                    color += self.tracer.trace_ray(ray)
+
+                color /= len(samples)
+
                 self.display_pixel(row, col, color)
 
     def ray_intersection(self, ray):
