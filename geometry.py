@@ -3,34 +3,33 @@ import math
 
 epsilon = 0.001
 
-class Geometry(object):
-    def __init__(self):
-        self.color = color.RGBColor()
-
-
 class Intersection(object):
     @classmethod
     def Miss(cls):
         return cls(False, float('inf'), None)
 
     @classmethod
-    def Hit(cls, t, color):
-        return cls(True, t, color)
+    def Hit(cls, t, normal):
+        return cls(True, t, normal)
 
-    def __init__(self, is_hit, t, color):
+    def __init__(self, is_hit, t, normal):
         self.is_hit = is_hit
         self.t = t
-        self.color = color
+        self.normal = normal
 
     def is_closer(self, other):
         return self.t < other.t
 
 
+class Geometry(object):
+    pass
+
+
 class Sphere(Geometry):
-    def __init__(self, center, radius, color):
+    def __init__(self, center, radius, material):
         self.center = center
         self.radius = radius
-        self.color = color
+        self.material = material
 
     def intersect(self, ray):
         temp = ray.origin - self.center
@@ -47,11 +46,13 @@ class Sphere(Geometry):
         t = (-b - e) / denom
 
         if t > epsilon:
-            return Intersection.Hit(t, self.color)
+            normal = (temp + ray.direction.mult(t)).normalized()
+            return Intersection.Hit(t, normal)
 
         t = (-b + e) / denom
         if t > epsilon:
-            return Intersection.Hit(t, self.color)
+            normal = (temp + ray.direction.mult(t)).normalized()
+            return Intersection.Hit(t, normal)
 
         return Intersection.Miss()
 
