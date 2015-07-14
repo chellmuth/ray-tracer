@@ -35,7 +35,7 @@ class World(object):
         self.add_geometry(disk)
 
         self.ambient_light = AmbientLight()
-        self.lights = [ PointLight(Point3(0.0, 200.0, -200.0)) ]
+        self.lights = [ PointLight(Point3(-50.0, -200.0, -200.0)) ]
 
     def add_geometry(self, geometry):
         self.geometry.append(geometry)

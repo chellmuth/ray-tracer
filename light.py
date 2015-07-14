@@ -23,6 +23,14 @@ class PointLight(Light):
         super(PointLight, self).__init__()
         self.location = location
 
+    def is_shadowed(self, ray, world):
+        distance = self.location.distance(ray.origin)
+        for geometry in world.geometry:
+            intersection = geometry.intersect(ray)
+            if intersection.is_hit and intersection.t < distance:
+                return True
+        return False
+
     def direction(self, towards_point):
         return (self.location - towards_point).normalized()
 

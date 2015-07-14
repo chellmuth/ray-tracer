@@ -7,7 +7,7 @@ class Tracer(object):
     def trace_ray(self, ray):
         result = self.world.ray_intersection(ray)
         if result.intersection.is_hit:
-            return result.shading_record.material.shade(result.shading_record)
+            return result.shading_record.material.shade(result.shading_record, self.world)
 
         return self.world.background_color
 

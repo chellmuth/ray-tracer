@@ -23,6 +23,9 @@ class Point3(object):
         length = math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
         return Vector3(self.x / length, self.y / length, self.z / length)
 
+    def distance(self, point):
+        return math.sqrt(self.squared_distance(point))
+
     def squared_distance(self, point):
         return (self.x - point.x) ** 2 + (self.y - point.y) ** 2 + (self.z - point.z) ** 2
 
