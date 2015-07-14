@@ -56,7 +56,25 @@ class Sphere(Geometry):
 
         return Intersection.Miss()
 
+class Disk(Geometry):
+    def __init__(self, center, normal, radius, material):
+        self.center = center
+        self.normal = normal
+        self.radius = radius
+        self.material = material
 
+    def intersect(self, ray):
+        # plug (o + td) ray into (p - a) * n = 0 plane equation
+        # (o + td - a) * n = 0
+        # t = (a - o) * n / (d * n)
+        t = (self.center - ray.origin).dot(self.normal) / ray.direction.dot(self.normal)
+
+        if t <= epsilon: return Intersection.Miss()
+
+        if self.center.squared_distance(ray.extrapolate(t)) < self.radius ** 2:
+            return Intersection.Hit(t, self.normal)
+
+        return Intersection.Miss()
 
 # class Plane(Geometry):
 #     def __init__(self, point, normal):
