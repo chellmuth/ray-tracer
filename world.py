@@ -21,21 +21,19 @@ class World(object):
         self.geometry = []
         self.data = numpy.zeros((self.view_plane.vres, self.view_plane.hres, 3), dtype=numpy.uint8)
 
-        sphere1 = Sphere(Point3(150.0, 0.0, -1200.0), 100.0, Matte(RGBColor.Blue()))
-        sphere2 = Sphere(Point3(0.0, -100.0, -800.0), 100.0, Matte(RGBColor.Red()))
-        self.add_geometry(sphere1)
-        self.add_geometry(sphere2)
+        self.add_geometry(Sphere(Point3(-4.0, -4.0, -35.0), 2.0, Matte(RGBColor.Red())))
+        self.add_geometry(Sphere(Point3(0.0, 0.0, -35.0), 3.0, Matte(RGBColor.Blue())))
 
         disk = Disk(
-            Point3(100.0, 0.0, -1300.0),
-            Point3(1.0, 0.0, -1.0).normalized(),
-            600,
-            Matte(RGBColor(0.8, 0.8, 0.3))
+            Point3(0.0, 0.0, -40.0),
+            Point3(0.0, 0.0, 1.0).normalized(),
+            10,
+            Matte(RGBColor(0.5, 0.9, 0.4))
         )
         self.add_geometry(disk)
 
         self.ambient_light = AmbientLight()
-        self.lights = [ PointLight(Point3(-50.0, -200.0, -200.0)) ]
+        self.lights = [ PointLight(Point3(10.0, 10.0, -25.0)) ]
 
     def add_geometry(self, geometry):
         self.geometry.append(geometry)

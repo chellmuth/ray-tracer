@@ -31,7 +31,7 @@ class Camera(object):
                     x = pixel_size * (col - 0.5 * hres + sample.x)
                     y = pixel_size * (row - 0.5 * vres + sample.y)
 
-                    ray = self._generate_ray(y, x)
+                    ray = self._generate_ray(x, y)
                     color += world.tracer.trace_ray(ray)
 
                 color /= len(samples)
