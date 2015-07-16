@@ -88,15 +88,17 @@ class OpenCylinder(object):
     def intersect(self, ray):
         # plug (o + td) ray into x^2 + z^2 - r^2 = 0
 
+        temp = ray.origin - self.center
+        temp.y = 0.0
         a = ray.direction.x ** 2 + ray.direction.z ** 2
-        b = 2 * ((ray.direction.x * (ray.origin.x - self.center.x)) + (ray.direction.z * (ray.origin.z - self.center.z)))
-        c = (ray.origin.x - self.center.x) ** 2 + (ray.origin.z - self.center.z) ** 2 - self.radius ** 2
+        b = temp.dot(ray.direction) * 2.0
+        c = temp.dot(temp) - (self.radius * self.radius)
         disc = b * b - (4.0 * a * c)
 
         if disc < 0.0:
             return Intersection.Miss()
 
-        e = math.sqrt (disc)
+        e = math.sqrt(disc)
         denom = 2.0 * a
         t = (-b - e) / denom
 
