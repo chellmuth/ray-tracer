@@ -3,7 +3,7 @@ import scipy.misc
 
 from camera import Camera
 from color import RGBColor
-from geometry import Disk, Sphere, Intersection
+from geometry import Disk, Sphere, OpenCylinder, Intersection
 from light import AmbientLight, PointLight
 from material import Matte
 from point import Point3
@@ -32,8 +32,10 @@ class World(object):
         )
         self.add_geometry(disk)
 
+        self.add_geometry(OpenCylinder(center=Point3(3.0, 0.0, -30.0), radius=2.0, material=Matte(RGBColor.Red())))
+
         self.ambient_light = AmbientLight()
-        self.lights = [ PointLight(Point3(10.0, 10.0, -25.0)) ]
+        self.lights = [ PointLight(Point3(10.0, 2.0, -10.0)) ]
 
     def add_geometry(self, geometry):
         self.geometry.append(geometry)

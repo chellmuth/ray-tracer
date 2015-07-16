@@ -1,6 +1,8 @@
 import color
 import math
 
+from vector import Vector3
+
 epsilon = 0.001
 
 class Intersection(object):
@@ -73,6 +75,41 @@ class Disk(Geometry):
 
         if self.center.squared_distance(ray.extrapolate(t)) < self.radius ** 2:
             return Intersection.Hit(t, self.normal)
+
+        return Intersection.Miss()
+
+
+class OpenCylinder(object):
+    def __init__(self, center, radius, material):
+        self.center = center
+        self.radius = radius
+        self.material = material
+
+    def intersect(self, ray):
+        # plug (o + td) ray into x^2 + z^2 - r^2 = 0
+
+        a = ray.direction.x ** 2 + ray.direction.z ** 2
+        b = 2 * ((ray.direction.x * (ray.origin.x - self.center.x)) + (ray.direction.z * (ray.origin.z - self.center.z)))
+        c = (ray.origin.x - self.center.x) ** 2 + (ray.origin.z - self.center.z) ** 2 - self.radius ** 2
+        disc = b * b - (4.0 * a * c)
+
+        if disc < 0.0:
+            return Intersection.Miss()
+
+        e = math.sqrt (disc)
+        denom = 2.0 * a
+        t = (-b - e) / denom
+
+        if t > epsilon:
+            hit = ray.extrapolate(t)
+            normal = Vector3(-hit.x / self.radius, 0, -hit.z / self.radius).normalized()
+            return Intersection.Hit(t, normal)
+
+        t = (-b + e) / denom
+        if t > epsilon:
+            hit = ray.extrapolate(t)
+            normal = Vector3(-hit.x / self.radius, 0, -hit.z / self.radius).normalized()
+            return Intersection.Hit(t, normal)
 
         return Intersection.Miss()
 

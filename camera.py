@@ -23,8 +23,8 @@ class Camera(object):
         hres = world.view_plane.hres
         vres = world.view_plane.vres
         pixel_size = world.view_plane.pixel_size
-        for row in range(hres):
-            for col in range(vres):
+        for row in range(vres):
+            for col in range(hres):
                 color = RGBColor.Black()
                 samples = world.sampler.generate_samples()
                 for sample in samples:
