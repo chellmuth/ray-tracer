@@ -5,7 +5,7 @@ from camera import Camera
 from color import RGBColor
 from geometry import Disk, Sphere, OpenCylinder, Intersection
 from light import AmbientLight, PointLight
-from material import Matte
+from material import Matte, Phong
 from point import Point3
 from sampler import Sampler
 from tracer import Tracer, TraceResult, ShadingRecord
@@ -21,8 +21,8 @@ class World(object):
         self.geometry = []
         self.data = numpy.zeros((self.view_plane.vres, self.view_plane.hres, 3), dtype=numpy.uint8)
 
-        self.add_geometry(Sphere(Point3(-4.0, -4.0, -35.0), 2.0, Matte(RGBColor.Red())))
-        self.add_geometry(Sphere(Point3(0.0, 0.0, -35.0), 3.0, Matte(RGBColor.Blue())))
+        self.add_geometry(Sphere(Point3(-4.0, -4.0, -35.0), 2.0, Phong(RGBColor.Red())))
+        self.add_geometry(Sphere(Point3(0.0, 0.0, -35.0), 3.0, Phong(RGBColor.Blue())))
 
         disk = Disk(
             Point3(0.0, 0.0, -40.0),
@@ -32,7 +32,7 @@ class World(object):
         )
         self.add_geometry(disk)
 
-        self.add_geometry(OpenCylinder(center=Point3(3.0, 0.0, -30.0), radius=2.0, material=Matte(RGBColor.Red())))
+        self.add_geometry(OpenCylinder(center=Point3(3.0, 0.0, -30.0), radius=2.0, material=Phong(RGBColor.Red())))
 
         self.ambient_light = AmbientLight()
         self.lights = [ PointLight(Point3(10.0, 2.0, -10.0)) ]

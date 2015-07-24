@@ -33,4 +33,4 @@ class RGBColor(object):
         return RGBColor(self.r * other.r, self.g * other.g, self.b * other.b)
 
     def to_list(self):
-        return [self.r * 255.0, self.g * 255.0, self.b * 255.0]
+        return [min(c, 255.0) for c in [self.r * 255.0, self.g * 255.0, self.b * 255.0]]
