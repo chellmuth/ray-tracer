@@ -1,4 +1,5 @@
 from brdf import Lambertian
+from color import RGBColor
 from ray import Ray
 
 class Material(object):
@@ -23,3 +24,11 @@ class Matte(Material):
                     L += (self.diffuse_brdf.f() * light.L()).mult(dot)
 
         return L
+
+class Normal(Material):
+    def shade(self, shading_record, world):
+        normal = shading_record.normal
+        r = (normal.x + 1.0) / 2.0
+        g = (normal.y + 1.0) / 2.0
+        b = (normal.z + 1.0) / 2.0
+        return RGBColor(r, g, b)
