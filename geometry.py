@@ -104,13 +104,13 @@ class OpenCylinder(object):
 
         if t > epsilon:
             hit = ray.extrapolate(t)
-            normal = Vector3(-hit.x / self.radius, 0, -hit.z / self.radius).normalized()
+            normal = Vector3(hit.x - self.center.x, 0, hit.z - self.center.z).normalized()
             return Intersection.Hit(t, normal)
 
         t = (-b + e) / denom
         if t > epsilon:
             hit = ray.extrapolate(t)
-            normal = Vector3(-hit.x / self.radius, 0, -hit.z / self.radius).normalized()
+            normal = Vector3(hit.x - self.center.x, 0, hit.z - self.center.z).normalized()
             return Intersection.Hit(t, normal)
 
         return Intersection.Miss()
