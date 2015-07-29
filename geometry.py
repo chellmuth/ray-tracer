@@ -1,6 +1,7 @@
 import color
 import math
 
+from matrix import Matrix4
 from vector import Vector3
 
 epsilon = 0.001
@@ -32,8 +33,10 @@ class Sphere(Geometry):
         self.center = center
         self.radius = radius
         self.material = material
+        self.inverse = Matrix4.Scale(1., 2/3., 1.)
 
     def intersect(self, ray):
+        ray = ray.transform(self.inverse)
         temp = ray.origin - self.center
         a = ray.direction.dot(ray.direction)
         b = temp.dot(ray.direction) * 2.0
@@ -48,12 +51,12 @@ class Sphere(Geometry):
         t = (-b - e) / denom
 
         if t > epsilon:
-            normal = (temp + ray.direction.mult(t)).normalized()
+            normal = self.inverse.mult_vector(temp + ray.direction.mult(t)).normalized()
             return Intersection.Hit(t, normal)
 
         t = (-b + e) / denom
         if t > epsilon:
-            normal = (temp + ray.direction.mult(t)).normalized()
+            normal = self.inverse.mult_vector(temp + ray.direction.mult(t)).normalized()
             return Intersection.Hit(t, normal)
 
         return Intersection.Miss()
