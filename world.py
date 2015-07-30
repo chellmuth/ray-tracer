@@ -24,28 +24,31 @@ class World(object):
         self.data = numpy.zeros((self.view_plane.vres, self.view_plane.hres, 3), dtype=numpy.uint8)
 
         sphere1 = Instance(Sphere(Point3(0.0, 0.0, 0.0), 2.0, Phong(RGBColor.Red())))
-        sphere1.scale(1.1, 1.0, 1.0)
-        sphere1.translate(-4.0, -4.0, -35.0)
+        sphere1.scale(1.0, 1.5, 1.0)
+        sphere1.translate(3.0, 2.0, -22.0)
         self.add_geometry(sphere1)
-        self.add_geometry(Sphere(Point3(0.0, 0.0, -35.0), 3.0, Phong(RGBColor.Blue())))
 
-        disk = Disk(
-            Point3(0.0, 0.0, -40.0),
+        sphere2 = Instance(Sphere(Point3(0.0, 0.0, 0.0), 3.0, Phong(RGBColor.Blue())))
+        sphere2.translate(-1.8, 2.0, -25.0)
+        self.add_geometry(sphere2)
+
+        disk = Instance(Disk(
+            Point3(0.0, 0.0, 0.0),
             Point3(0.0, 0.0, 1.0).normalized(),
-            10,
+            30,
             Matte(RGBColor(0.5, 0.9, 0.4))
-        )
+        ))
+        disk.rotate_x(-math.pi / 2)
+        disk.translate(0.0, 5.0, -45.0)
         self.add_geometry(disk)
 
-        cylinder = Instance(OpenCylinder(center=Point3(0.0, 0.0, 0.0), radius=2.0, material=Phong(RGBColor(1., 1., 0.5))))
-        cylinder.rotate_x(math.pi / 4)
-        cylinder.rotate_z(-math.pi / 8)
-        cylinder.translate(3.0, 0.0, -30.0)
+        cylinder = Instance(OpenCylinder(center=Point3(0.0, 0.0, 0.0), radius=3.0, material=Phong(RGBColor(1.0, 1.0, 0.5))))
+        cylinder.translate(-4.0, 0.0, -36.0)
         self.add_geometry(cylinder)
 
 
         self.ambient_light = AmbientLight()
-        self.lights = [ PointLight(Point3(10.0, 2.0, -10.0)) ]
+        self.lights = [ PointLight(Point3(8.0, 2.0, -12.0)) ]
 
     def add_geometry(self, geometry):
         self.geometry.append(geometry)

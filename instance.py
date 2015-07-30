@@ -17,10 +17,10 @@ class Instance(Geometry):
         self.inverse = self.inverse * Matrix4.Scale(1.0/x, 1.0/y, 1.0/z)
 
     def rotate_x(self, theta):
-        self.inverse = self.inverse * Matrix4.RotateX(theta)
+        self.inverse = self.inverse * Matrix4.RotateX(-theta)
 
     def rotate_z(self, theta):
-        self.inverse = self.inverse * Matrix4.RotateZ(theta)
+        self.inverse = self.inverse * Matrix4.RotateZ(-theta)
 
     def intersect(self, ray):
         transformed_ray = ray.transform(self.inverse)
