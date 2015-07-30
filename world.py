@@ -1,3 +1,4 @@
+import math
 import numpy
 import scipy.misc
 
@@ -36,7 +37,12 @@ class World(object):
         )
         self.add_geometry(disk)
 
-        self.add_geometry(OpenCylinder(center=Point3(3.0, 0.0, -30.0), radius=2.0, material=Phong(RGBColor.Red())))
+        cylinder = Instance(OpenCylinder(center=Point3(0.0, 0.0, 0.0), radius=2.0, material=Phong(RGBColor(1., 1., 0.5))))
+        cylinder.rotate_x(math.pi / 4)
+        cylinder.rotate_z(-math.pi / 8)
+        cylinder.translate(3.0, 0.0, -30.0)
+        self.add_geometry(cylinder)
+
 
         self.ambient_light = AmbientLight()
         self.lights = [ PointLight(Point3(10.0, 2.0, -10.0)) ]

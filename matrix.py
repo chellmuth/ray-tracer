@@ -1,3 +1,5 @@
+from math import cos, sin
+
 from point import Point3
 from vector import Vector3
 
@@ -5,28 +7,46 @@ class Matrix4(object):
     @classmethod
     def Identity(cls):
         return cls(
-            [ 1, 0, 0, 0],
-            [ 0, 1, 0, 0],
-            [ 0, 0, 1, 0],
-            [ 0, 0, 0, 1]
+            [ 1, 0, 0, 0 ],
+            [ 0, 1, 0, 0 ],
+            [ 0, 0, 1, 0 ],
+            [ 0, 0, 0, 1 ]
         )
 
     @classmethod
     def Translate(cls, x, y, z):
         return cls(
-            [ 1, 0, 0, x],
-            [ 0, 1, 0, y],
-            [ 0, 0, 1, z],
-            [ 0, 0, 0, 1]
+            [ 1, 0, 0, x ],
+            [ 0, 1, 0, y ],
+            [ 0, 0, 1, z ],
+            [ 0, 0, 0, 1 ]
         )
 
     @classmethod
     def Scale(cls, x, y, z):
         return cls(
-            [ x, 0, 0, 0],
-            [ 0, y, 0, 0],
-            [ 0, 0, z, 0],
-            [ 0, 0, 0, 1]
+            [ x, 0, 0, 0 ],
+            [ 0, y, 0, 0 ],
+            [ 0, 0, z, 0 ],
+            [ 0, 0, 0, 1 ]
+        )
+
+    @classmethod
+    def RotateX(cls, theta):
+        return cls(
+            [ 1, 0, 0, 0 ],
+            [ 0, cos(theta), -sin(theta), 0 ],
+            [ 0, sin(theta), cos(theta), 0 ],
+            [ 0, 0, 0, 1 ]
+        )
+
+    @classmethod
+    def RotateZ(cls, theta):
+        return cls(
+            [ cos(theta), -sin(theta), 0, 0 ],
+            [ sin(theta), cos(theta), 0, 0 ],
+            [ 0, 0, 1, 0 ],
+            [ 0, 0, 0, 1 ]
         )
 
     def __init__(self, *rows):
