@@ -4,8 +4,9 @@ import scipy.misc
 from camera import Camera
 from color import RGBColor
 from geometry import Disk, Sphere, OpenCylinder, Intersection
+from instance import Instance
 from light import AmbientLight, PointLight
-from material import Matte, Phong
+from material import Matte, Phong, Normal
 from point import Point3
 from sampler import Sampler
 from tracer import Tracer, TraceResult, ShadingRecord
@@ -21,7 +22,10 @@ class World(object):
         self.geometry = []
         self.data = numpy.zeros((self.view_plane.vres, self.view_plane.hres, 3), dtype=numpy.uint8)
 
-        self.add_geometry(Sphere(Point3(-4.0, -4.0, -35.0), 2.0, Phong(RGBColor.Red())))
+        sphere1 = Instance(Sphere(Point3(0.0, 0.0, 0.0), 2.0, Phong(RGBColor.Red())))
+        sphere1.scale(1.1, 1.0, 1.0)
+        sphere1.translate(-4.0, -4.0, -35.0)
+        self.add_geometry(sphere1)
         self.add_geometry(Sphere(Point3(0.0, 0.0, -35.0), 3.0, Phong(RGBColor.Blue())))
 
         disk = Disk(
