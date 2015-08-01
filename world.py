@@ -7,6 +7,7 @@ from color import RGBColor
 from geometry import Disk, Sphere, OpenCylinder, Intersection
 from instance import Instance
 from light import AmbientLight, PointLight
+from loader import load_obj
 from material import Matte, Phong, Normal
 from mesh import Mesh, FlatMeshTriangle
 from point import Point3
@@ -47,9 +48,12 @@ class World(object):
         cylinder.translate(-4.0, 0.0, -36.0)
         self.add_geometry(cylinder)
 
-        mesh = Mesh()
-        triangle = FlatMeshTriangle(mesh, Vector3(0.0, 0.0, 1.0), mesh.indices, material=Phong(RGBColor.Red()))
-        self.add_geometry(triangle)
+        mesh = load_obj("cube.obj")
+        for face in mesh.faces:
+            triangle = Instance(FlatMeshTriangle(mesh, Vector3(0.0, 0.0, 1.0), face, material=Phong(RGBColor(0.8, 0.8, 0.8))))
+            triangle.rotate_y(math.pi / 8)
+            triangle.translate(1.0, 1.0, -10.0)
+            self.add_geometry(triangle)
 
         self.ambient_light = AmbientLight()
         self.lights = [ PointLight(Point3(8.0, 2.0, -1.0)) ]

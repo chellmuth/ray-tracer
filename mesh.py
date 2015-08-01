@@ -4,15 +4,10 @@ from point import Point3
 epsilon = 0.001
 
 class Mesh(object):
-    def __init__(self):
-        self.vertices = [
-            Point3(-2.0, -2.0, -10.0),
-            Point3(2.0, -1.0, -10.0),
-            Point3(1.0, 2.0, -10.0)
-        ]
-
-        self.indices = [ 0, 1, 2 ]
-
+    def __init__(self, vertices, normals, faces):
+        self.vertices = vertices
+        self.normals = normals
+        self.faces = faces
 
 class FlatMeshTriangle(object):
     def __init__(self, mesh, normal, indices, material):
