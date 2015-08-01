@@ -1,7 +1,13 @@
 from geometry import Geometry, Intersection
 from point import Point3
+from vector import Vector3
 
 epsilon = 0.001
+
+class Face(object):
+    def __init__(self, vertex_indices, normal_indices):
+        self.vertex_indices = vertex_indices
+        self.normal_indices = normal_indices
 
 class Mesh(object):
     def __init__(self, vertices, normals, faces):
@@ -10,13 +16,13 @@ class Mesh(object):
         self.faces = faces
 
 class FlatMeshTriangle(object):
-    def __init__(self, mesh, normal, indices, material):
+    def __init__(self, mesh, normal, face, material):
         self.mesh = mesh
-        self.index0 = indices[0]
-        self.index1 = indices[1]
-        self.index2 = indices[2]
+        self.index0 = face.vertex_indices[0]
+        self.index1 = face.vertex_indices[1]
+        self.index2 = face.vertex_indices[2]
 
-        self.normal = normal
+        self.normal = sum((mesh.normals[face.normal_indices[i]] for i in range(3)), Vector3.Zero()).normalized()
         self.material = material
 
     def intersect(self, ray):

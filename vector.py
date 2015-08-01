@@ -1,6 +1,10 @@
 import math
 
 class Vector3(object):
+    @classmethod
+    def Zero(cls):
+        return cls(0.0, 0.0, 0.0)
+
     def __init__(self, x, y, z):
         self.x = x
         self.y = y

@@ -1,6 +1,6 @@
 import re
 
-from mesh import Mesh
+from mesh import Mesh, Face
 from point import Point3
 from vector import Vector3
 
@@ -21,10 +21,13 @@ def load_obj(filename):
 
         match = re.match("^f ([^ ]+) ([^ ]+) ([^ ]+)$", line)
         if match:
-            face = []
+            face_vertices = []
+            face_normals = []
             for index in range(1, 4):
                 group = match.group(index)
-                face.append(int(group.split("/")[0]))
-            faces.append(face)
+                vertex_index, uv_index, normal_index = [ int(i) for i in group.split("/") ]
+                face_vertices.append(vertex_index)
+                face_normals.append(normal_index)
+            faces.append(Face(face_vertices, face_normals))
 
     return Mesh(vertices, normals, faces)

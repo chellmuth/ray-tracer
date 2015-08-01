@@ -30,10 +30,6 @@ class World(object):
         sphere1.translate(3.0, 2.0, -22.0)
         self.add_geometry(sphere1)
 
-        sphere2 = Instance(Sphere(Point3(0.0, 0.0, 0.0), 3.0, Phong(RGBColor.Blue())))
-        sphere2.translate(-1.8, 2.0, -25.0)
-        self.add_geometry(sphere2)
-
         disk = Instance(Disk(
             Point3(0.0, 0.0, 0.0),
             Point3(0.0, 0.0, 1.0).normalized(),
@@ -50,13 +46,14 @@ class World(object):
 
         mesh = load_obj("cube.obj")
         for face in mesh.faces:
-            triangle = Instance(FlatMeshTriangle(mesh, Vector3(0.0, 0.0, 1.0), face, material=Phong(RGBColor(0.8, 0.8, 0.8))))
-            triangle.rotate_y(math.pi / 8)
-            triangle.translate(1.0, 1.0, -10.0)
+            triangle = Instance(FlatMeshTriangle(mesh, Vector3(0.0, 0.0, 1.0), face, material=Phong(RGBColor.Blue())))
+            triangle.scale(3.5, 3.5, 3.5)
+            triangle.rotate_y(math.pi / 3)
+            triangle.translate(-1.3, 3.5, -25.0)
             self.add_geometry(triangle)
 
         self.ambient_light = AmbientLight()
-        self.lights = [ PointLight(Point3(8.0, 2.0, -1.0)) ]
+        self.lights = [ PointLight(Point3(8.0, 2.0, -5.0)) ]
 
     def add_geometry(self, geometry):
         self.geometry.append(geometry)
