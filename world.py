@@ -14,7 +14,9 @@ from tracer import Tracer, TraceResult, ShadingRecord
 from vector import Vector3
 
 class World(object):
-    def __init__(self):
+    def __init__(self, queue):
+        self.pixel_queue = queue
+
         self.tracer = Tracer(self)
         self.sampler = Sampler(25)
         self.view_plane = ViewPlane()
@@ -68,6 +70,7 @@ class World(object):
 
     def display_pixel(self, row, col, color):
         self.data[row, col] = color.to_list()
+        self.pixel_queue.put((row, col, color.to_list()))
 
     def show(self):
         image = scipy.misc.toimage(self.data)
