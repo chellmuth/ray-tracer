@@ -46,9 +46,9 @@ class World(object):
 
         mesh = load_obj("cube.obj")
         for face in mesh.faces:
-            triangle = Instance(FlatMeshTriangle(mesh, Vector3(0.0, 0.0, 1.0), face, material=Phong(RGBColor.Blue())))
+            triangle = Instance(FlatMeshTriangle(mesh, face, material=Phong(RGBColor.Blue())))
             triangle.scale(3.5, 3.5, 3.5)
-            triangle.rotate_y(math.pi / 3)
+            triangle.rotate_y(-math.pi / 10)
             triangle.translate(-1.3, 3.5, -25.0)
             self.add_geometry(triangle)
 

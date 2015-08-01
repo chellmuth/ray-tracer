@@ -16,7 +16,7 @@ class Mesh(object):
         self.faces = faces
 
 class FlatMeshTriangle(object):
-    def __init__(self, mesh, normal, face, material):
+    def __init__(self, mesh, face, material):
         self.mesh = mesh
         self.index0 = face.vertex_indices[0]
         self.index1 = face.vertex_indices[1]
