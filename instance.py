@@ -19,6 +19,9 @@ class Instance(Geometry):
     def rotate_x(self, theta):
         self.inverse = self.inverse * Matrix4.RotateX(-theta)
 
+    def rotate_y(self, theta):
+        self.inverse = self.inverse * Matrix4.RotateY(-theta)
+
     def rotate_z(self, theta):
         self.inverse = self.inverse * Matrix4.RotateZ(-theta)
 

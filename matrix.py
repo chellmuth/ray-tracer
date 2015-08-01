@@ -41,6 +41,15 @@ class Matrix4(object):
         )
 
     @classmethod
+    def RotateY(cls, theta):
+        return cls(
+            [ cos(theta), 0, -sin(theta), 0 ],
+            [ 0, 1, 0, 0 ],
+            [ sin(theta), 0, cos(theta), 0 ],
+            [ 0, 0, 0, 1 ]
+        )
+
+    @classmethod
     def RotateZ(cls, theta):
         return cls(
             [ cos(theta), -sin(theta), 0, 0 ],
