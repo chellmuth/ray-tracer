@@ -8,6 +8,7 @@ from geometry import Disk, Sphere, OpenCylinder, Intersection
 from instance import Instance
 from light import AmbientLight, PointLight
 from material import Matte, Phong, Normal
+from mesh import Mesh, FlatMeshTriangle
 from point import Point3
 from sampler import Sampler
 from tracer import Tracer, TraceResult, ShadingRecord
@@ -46,9 +47,12 @@ class World(object):
         cylinder.translate(-4.0, 0.0, -36.0)
         self.add_geometry(cylinder)
 
+        mesh = Mesh()
+        triangle = FlatMeshTriangle(mesh, Vector3(0.0, 0.0, 1.0), mesh.indices, material=Phong(RGBColor.Red()))
+        self.add_geometry(triangle)
 
         self.ambient_light = AmbientLight()
-        self.lights = [ PointLight(Point3(8.0, 2.0, -12.0)) ]
+        self.lights = [ PointLight(Point3(8.0, 2.0, -1.0)) ]
 
     def add_geometry(self, geometry):
         self.geometry.append(geometry)
