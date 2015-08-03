@@ -29,6 +29,12 @@ class Point3(object):
     def squared_distance(self, point):
         return (self.x - point.x) ** 2 + (self.y - point.y) ** 2 + (self.z - point.z) ** 2
 
+    def __getitem__(self, key):
+        if key == 0: return self.x
+        if key == 1: return self.y
+        if key == 2: return self.z
+        raise KeyError
+
     def __add__(self, other):
         return Vector3(self.x + other.x, self.y + other.y, self.z + other.z)
 
