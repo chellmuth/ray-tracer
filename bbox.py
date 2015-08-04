@@ -1,5 +1,7 @@
 import numpy as np
 
+from point import Point3
+
 epsilon = 0.001
 
 class BoundingBox(object):
@@ -7,6 +9,25 @@ class BoundingBox(object):
         self.p0 = p0
         self.p1 = p1
 
+    def union(self, other):
+        return BoundingBox(
+            Point3(
+                min(self.p0.x, other.p0.x),
+                min(self.p0.y, other.p0.y),
+                min(self.p0.z, other.p0.z)
+            ),
+            Point3(
+                max(self.p1.x, other.p1.x),
+                max(self.p1.y, other.p1.y),
+                max(self.p1.z, other.p1.z)
+            )
+        )
+
+    def grow_epsilon(self):
+        return BoundingBox(
+            Point3(self.p0.x - epsilon, self.p0.y - epsilon, self.p0.z - epsilon),
+            Point3(self.p1.x + epsilon, self.p1.y + epsilon, self.p1.z + epsilon)
+        )
 
     def is_hit(self, ray):
         t0 = epsilon
@@ -26,3 +47,6 @@ class BoundingBox(object):
             if t0 > t1:
                 return False
         return True
+
+    def __repr__(self):
+        return "p0: %s, p1; %s" % (self.p0, self.p1)

@@ -1,7 +1,9 @@
 import color
 import math
 
+from bbox import BoundingBox
 from matrix import Matrix4
+from point import Point3
 from vector import Vector3
 
 epsilon = 0.001
@@ -34,6 +36,20 @@ class Sphere(Geometry):
         self.radius = radius
         self.material = material
 
+    def get_bbox(self):
+        return BoundingBox(
+            Point3(
+                self.center.x - self.radius,
+                self.center.y - self.radius,
+                self.center.z - self.radius
+             ),
+            Point3(
+                self.center.x + self.radius,
+                self.center.y + self.radius,
+                self.center.z + self.radius
+            )
+        )
+
     def intersect(self, ray):
         temp = ray.origin - self.center
         a = ray.direction.dot(ray.direction)
@@ -58,6 +74,9 @@ class Sphere(Geometry):
             return Intersection.Hit(t, normal)
 
         return Intersection.Miss()
+
+    def __repr__(self):
+        return "C: (%s), r: %s" % (self.center, self.radius)
 
 class Disk(Geometry):
     def __init__(self, center, normal, radius, material):
