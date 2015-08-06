@@ -29,6 +29,14 @@ class BoundingBox(object):
             Point3(self.p1.x + epsilon, self.p1.y + epsilon, self.p1.z + epsilon)
         )
 
+    def is_inside(self, point):
+        for axis in range(3):
+            if self.p0.x <= point.x <= self.p1.x:
+                continue
+            return False
+        return True
+
+
     def is_hit(self, ray):
         t0 = epsilon
         t1 = float("inf")

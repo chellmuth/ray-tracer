@@ -25,6 +25,16 @@ class Vector3(object):
         if key == 2: return self.z
         raise KeyError
 
+    def __setitem__(self, key, value):
+        if key == 0:
+            self.x = value
+        elif key == 1:
+            self.y = value
+        elif key == 2:
+            self.z = value
+        else:
+            raise KeyError
+
     def dot(self, other):
         return self.x * other.x + self.y * other.y + self.z * other.z
 

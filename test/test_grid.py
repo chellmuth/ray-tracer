@@ -1,8 +1,10 @@
 from geometry import Sphere as S
 from grid import Grid as G
 from grid import FixedCellStrategy as CS
-from point import Point3 as P
 from material import Material as M
+from point import Point3 as P
+from ray import Ray as R
+from vector import Vector3 as V
 
 def test_grid_basic():
     grid = G(CS(1))
@@ -63,3 +65,10 @@ def test_different_sized_objects():
         [],                   []
     ]
     assert grid.cells == cells
+
+def test_hit_basic():
+    grid = G(CS(10))
+    sphere = S(P(2, 2, 2), 1, M())
+    grid.setup([sphere])
+
+    assert grid.hit(R(P(0, 0, 0), V(1, 1, 1))).is_hit
