@@ -25,9 +25,9 @@ class World(object):
         self.geometry = []
         self.data = numpy.zeros((self.view_plane.vres, self.view_plane.hres, 3), dtype=numpy.uint8)
 
-        mesh = load_obj("cube.obj")
+        mesh = load_obj("teapot.obj")
         for face in mesh.faces:
-            triangle = FlatMeshTriangle(mesh, face, material=Phong(RGBColor.Blue()))
+            triangle = FlatMeshTriangle(mesh, face, material=Phong(RGBColor.Red()))
             # triangle.scale(3.5, 3.5, 3.5)
             # triangle.rotate_y(-math.pi / 10)
             # triangle.translate(-1.3, 3.5, -25.0)

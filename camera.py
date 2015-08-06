@@ -5,8 +5,8 @@ from vector import Vector3
 
 class Camera(object):
     def __init__(self):
-        self.eye = Point3(0, 0, 10)
-        self.look_at = Point3(0, 0, -1)
+        self.eye = Point3(0, 0, 400)
+        self.look_at = Point3(20, 59, 0)
         self.up = Vector3(0, 1, 0)
         self.view_distance = 400
 
