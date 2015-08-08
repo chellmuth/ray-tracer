@@ -36,7 +36,7 @@ class Camera(object):
 
                 color /= len(samples)
 
-                world.display_pixel(row, col, color)
+                world.display_pixel(vres - row - 1, col, color)
 
     def _generate_ray(self, x, y):
         direction = self.u.mult(x) + self.v.mult(y) - self.w.mult(self.view_distance)
