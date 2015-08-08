@@ -128,6 +128,8 @@ class Grid(object):
                     if cell[axis] == cell_stop[axis]:
                         return Intersection.Miss()
 
+                    break
+
 
     def _calculate_cells(self, objects):
         bbox = self.bbox
