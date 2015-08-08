@@ -101,11 +101,11 @@ class Grid(object):
         cell_step = Vector3(None, None, None)
         cell_stop = Vector3(None, None, None)
         for axis in range(3):
-            if t_delta[axis] > 0:
+            if ray.direction[axis] > 0:
                 t_next[axis] = t_delta[axis] * (cell[axis] + 1) + t_min[axis]
                 cell_step[axis] = +1
                 cell_stop[axis] = self.n[axis]
-            elif t_delta[axis] == 0.0:
+            elif ray.direction[axis] == 0.0:
                 tx_next[axis] = float("inf")
                 cell_step[axis] = -1
                 cell_stop[axis] = -1
