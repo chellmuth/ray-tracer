@@ -18,9 +18,9 @@ from tracer import Tracer, TraceResult, ShadingRecord
 from vector import Vector3
 
 class World(object):
-    def __init__(self, debug):
+    def __init__(self, config):
         self.tracer = Tracer(self)
-        self.sampler = Sampler(9)
+        self.sampler = Sampler(config.samples)
         self.view_plane = ViewPlane()
         self.background_color = RGBColor(0.1, 0.1, 0.1)
         self.camera = Camera()
@@ -29,7 +29,7 @@ class World(object):
 
         mesh = load_obj("teapot.obj")
         triangles = []
-        if debug:
+        if config.debug:
             for face in mesh.faces:
                 triangle = SmoothMeshTriangle(mesh, face, material=Phong(RGBColor.Red()))
                 self.add_geometry(triangle)
