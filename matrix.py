@@ -104,3 +104,6 @@ class Matrix4(object):
                 m[3][0] * n[0][3] + m[3][1] * n[1][3] + m[3][2] * n[2][3] + m[3][3] * n[3][3],
             ]
         )
+
+    def __repr__(self):
+        return "\n".join(" ".join(str(self.rows[row][col]) for col in range(4)) for row in range(4))

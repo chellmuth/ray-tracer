@@ -9,6 +9,19 @@ class BoundingBox(object):
         self.p0 = p0
         self.p1 = p1
 
+    @property
+    def points(self):
+        return [
+            Point3(self.p0.x, self.p0.y, self.p0.z),
+            Point3(self.p0.x, self.p0.y, self.p1.z),
+            Point3(self.p0.x, self.p1.y, self.p0.z),
+            Point3(self.p0.x, self.p1.y, self.p1.z),
+            Point3(self.p1.x, self.p0.y, self.p0.z),
+            Point3(self.p1.x, self.p0.y, self.p1.z),
+            Point3(self.p1.x, self.p1.y, self.p0.z),
+            Point3(self.p1.x, self.p1.y, self.p1.z)
+        ]
+
     def union(self, other):
         return BoundingBox(
             Point3(

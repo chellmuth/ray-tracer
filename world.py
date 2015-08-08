@@ -37,7 +37,9 @@ class World(object):
         else:
             for face in mesh.faces:
                 triangle = Instance(SmoothMeshTriangle(mesh, face, material=None))
-                # triangle.rotate_y(math.pi / 10.)
+                triangle.rotate_y(math.pi/8.0)
+                triangle.rotate_x(math.pi/8.0)
+                triangle.translate(-5, 0, 0)
                 triangles.append(triangle)
             grid = Grid()
             grid.setup(triangles)
