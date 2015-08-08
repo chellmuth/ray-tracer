@@ -6,6 +6,9 @@ class Instance(Geometry):
         self.geometry = geometry
         self.inverse = Matrix4.Identity()
 
+    def get_bbox(self):
+        return self.geometry.get_bbox()
+
     @property
     def material(self):
         return self.geometry.material
