@@ -35,6 +35,10 @@ class Vector3(object):
         else:
             raise KeyError
 
+    def __repr__(self):
+        return "V: (%f, %f, %f)" % (self.x, self.y, self.z)
+
+
     def dot(self, other):
         return self.x * other.x + self.y * other.y + self.z * other.z
 
