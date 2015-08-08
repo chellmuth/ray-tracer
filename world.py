@@ -11,7 +11,7 @@ from instance import Instance
 from light import AmbientLight, PointLight
 from loader import load_obj
 from material import Matte, Phong, Normal, Distance
-from mesh import Mesh, FlatMeshTriangle
+from mesh import Mesh, FlatMeshTriangle, SmoothMeshTriangle
 from point import Point3
 from sampler import Sampler
 from tracer import Tracer, TraceResult, ShadingRecord
@@ -20,7 +20,7 @@ from vector import Vector3
 class World(object):
     def __init__(self, debug):
         self.tracer = Tracer(self)
-        self.sampler = Sampler(1)
+        self.sampler = Sampler(9)
         self.view_plane = ViewPlane()
         self.background_color = RGBColor(0.1, 0.1, 0.1)
         self.camera = Camera()
@@ -31,12 +31,12 @@ class World(object):
         triangles = []
         if debug:
             for face in mesh.faces:
-                triangle = FlatMeshTriangle(mesh, face, material=Phong(RGBColor.Red()))
+                triangle = SmoothMeshTriangle(mesh, face, material=Phong(RGBColor.Red()))
                 self.add_geometry(triangle)
 
         else:
             for face in mesh.faces:
-                triangles.append(FlatMeshTriangle(mesh, face, material=None))
+                triangles.append(SmoothMeshTriangle(mesh, face, material=None))
             grid = Grid()
             grid.setup(triangles)
 

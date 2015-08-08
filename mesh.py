@@ -16,14 +16,14 @@ class Mesh(object):
         self.normals = normals
         self.faces = faces
 
-class FlatMeshTriangle(object):
+class Triangle(object):
     def __init__(self, mesh, face, material):
         self.mesh = mesh
+
         self.index0 = face.vertex_indices[0]
         self.index1 = face.vertex_indices[1]
         self.index2 = face.vertex_indices[2]
 
-        self.normal = sum((mesh.normals[face.normal_indices[i]] for i in range(3)), Vector3.Zero()).normalized()
         self.material = material
 
     def get_bbox(self):
@@ -77,4 +77,30 @@ class FlatMeshTriangle(object):
         if t < epsilon:
             return Intersection.Miss()
 
-        return Intersection.Hit(t, self.normal)
+        return Intersection.Hit(t, self._interpolate_normal(b1, b2))
+
+
+class SmoothMeshTriangle(Triangle):
+    def __init__(self, mesh, face, material):
+        super(SmoothMeshTriangle, self).__init__(mesh, face, material)
+
+        self.normal = Vector3(1.0, 0.0, 0.0)
+
+    def _interpolate_normal(self, beta, gamma):
+        interpolated = (
+            self.mesh.normals[self.index0].mult(1 - beta - gamma) +
+            self.mesh.normals[self.index1].mult(beta) +
+            self.mesh.normals[self.index2].mult(gamma)
+        )
+
+        return interpolated.normalized()
+
+
+class FlatMeshTriangle(Triangle):
+    def __init__(self, mesh, face, material):
+        super(FlatMeshTriangle, self).__init__(mesh, face, material)
+
+        self.normal = sum((mesh.normals[face.normal_indices[i]] for i in range(3)), Vector3.Zero()).normalized()
+
+    def _interpolate_normal(self, beta, gamma):
+        return self.normal
