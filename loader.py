@@ -90,10 +90,6 @@ class MeshBuilder(object):
         self._create_face_objects()
 
     def _calculate_vertex_normals(self):
-        # is the normal the average for the adjacent face normals,
-        # or the normalized sum of the adjacent face normals?
-        # or are they the same??
-
         normal_accumulator = [ Vector3.Zero() for _ in self.vertices ]
         for face in self.faces:
             face_normal = face.normal(self.vertices)
