@@ -51,3 +51,10 @@ class Vector3(object):
 
     def mult(self, scalar):
         return Vector3(self.x * scalar, self.y * scalar, self.z * scalar)
+
+    def distance(self, other):
+        return math.sqrt(
+            (self.x - other.x) ** 2 +
+            (self.y - other.y) ** 2 +
+            (self.z - other.z) ** 2
+        )

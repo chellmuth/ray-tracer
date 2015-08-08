@@ -25,6 +25,15 @@ class Matte(Material):
 
         return L
 
+class Distance(Material):
+    def __init__(self, max_distance):
+        self.max_distance = max_distance
+
+    def shade(self, shading_record, world):
+        distance = shading_record.hit_point.distance(world.camera.eye)
+        value = distance / self.max_distance
+        return RGBColor(value, value, value)
+
 class Normal(Material):
     def shade(self, shading_record, world):
         normal = shading_record.normal

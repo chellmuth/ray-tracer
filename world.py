@@ -8,7 +8,7 @@ from geometry import Disk, Sphere, OpenCylinder, Intersection
 from instance import Instance
 from light import AmbientLight, PointLight
 from loader import load_obj
-from material import Matte, Phong, Normal
+from material import Matte, Phong, Normal, Distance
 from mesh import Mesh, FlatMeshTriangle
 from point import Point3
 from sampler import Sampler
