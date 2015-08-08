@@ -191,7 +191,7 @@ def _calculate_t_interval(bbox, ray):
         min=(bbox.p0.z - ray.origin.z) / direction.z,
         max=(bbox.p1.z - ray.origin.z) / direction.z
     )
-    if direction.x < 0:
+    if direction.z < 0:
         tz = Interval(tz.max, tz.min)
 
     return tx, ty, tz
