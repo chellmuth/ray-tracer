@@ -17,7 +17,7 @@ from tracer import Tracer, TraceResult, ShadingRecord
 from vector import Vector3
 
 class World(object):
-    def __init__(self):
+    def __init__(self, debug):
         self.tracer = Tracer(self)
         self.sampler = Sampler(1)
         self.view_plane = ViewPlane()
@@ -28,16 +28,18 @@ class World(object):
 
         mesh = load_obj("teapot.obj")
         triangles = []
-        for face in mesh.faces:
-            triangles.append(FlatMeshTriangle(mesh, face, material=None))
-            # triangle = FlatMeshTriangle(mesh, face, material=Phong(RGBColor.Red()))
-            # triangle.scale(3.5, 3.5, 3.5)
-            # triangle.rotate_y(-math.pi / 10)
-            # triangle.translate(-1.3, 3.5, -25.0)
-        grid = Grid()
-        grid.setup(triangles)
+        if debug:
+            for face in mesh.faces:
+                triangle = FlatMeshTriangle(mesh, face, material=Phong(RGBColor.Red()))
+                self.add_geometry(triangle)
 
-        self.add_geometry(grid)
+        else:
+            for face in mesh.faces:
+                triangles.append(FlatMeshTriangle(mesh, face, material=None))
+            grid = Grid()
+            grid.setup(triangles)
+
+            self.add_geometry(grid)
 
         self.ambient_light = AmbientLight()
         self.lights = [ PointLight(Point3(8.0, 2.0, 5.0)) ]
