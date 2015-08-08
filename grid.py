@@ -4,6 +4,9 @@ import itertools
 from util import clamp
 from vector import Vector3
 
+from geometry import Intersection
+from material import Normal
+
 epsilon = 0.001
 
 # Ray Tracing From the Ground Up, p 448
@@ -36,8 +39,8 @@ class MultiplierCellStrategy(CellStrategy):
 Interval = collections.namedtuple("Interval", ["min", "max"])
 
 class Grid(object):
-    def __init__(self, cell_strategy):
-        self.cell_strategy = cell_strategy
+    def __init__(self, cell_strategy=None):
+        self.cell_strategy = cell_strategy or MultiplierCellStrategy()
 
     def setup(self, objects):
         self.bbox = _calculate_bounds(objects)
@@ -45,12 +48,19 @@ class Grid(object):
         self.n = Vector3(self.nx, self.ny, self.nz)
         self.cells = self._calculate_cells(objects)
 
+    @property
+    def material(self):
+        return Normal()
+
+    def intersect(self, ray):
+        return self.hit(ray)
+
     def hit(self, ray):
         bbox = self.bbox
         nx, ny, nz = self.nx, self.ny, self.nz
 
         if not bbox.is_hit(ray):
-            return False
+            return Intersection.Miss()
 
         # Get first and last intersections on each axis
         tx, ty, tz = _calculate_t_interval(bbox, ray)
@@ -66,16 +76,16 @@ class Grid(object):
         bbox_length = bbox.p1 - bbox.p0
         if bbox.is_inside(ray.origin):
             cell = Vector3(
-                clamp(nx * (ray.origin.x - bbox.p0.x) / bbox_length.x, 0, nx - 1),
-                clamp(ny * (ray.origin.y - bbox.p0.y) / bbox_length.y, 0, ny - 1),
-                clamp(nz * (ray.origin.z - bbox.p0.z) / bbox_length.z, 0, nz - 1)
+                int(clamp(nx * (ray.origin.x - bbox.p0.x) / bbox_length.x, 0, nx - 1)),
+                int(clamp(ny * (ray.origin.y - bbox.p0.y) / bbox_length.y, 0, ny - 1)),
+                int(clamp(nz * (ray.origin.z - bbox.p0.z) / bbox_length.z, 0, nz - 1))
             )
         else:
             hit = ray.extrapolate(t0)
             cell = Vector3(
-                clamp(nx * (hit.x - bbox.p0.x) / bbox_length.x, 0, nx - 1),
-                clamp(ny * (hit.y - bbox.p0.y) / bbox_length.y, 0, ny - 1),
-                clamp(nz * (hit.z - bbox.p0.z) / bbox_length.z, 0, nz - 1)
+                int(clamp(nx * (hit.x - bbox.p0.x) / bbox_length.x, 0, nx - 1)),
+                int(clamp(ny * (hit.y - bbox.p0.y) / bbox_length.y, 0, ny - 1)),
+                int(clamp(nz * (hit.z - bbox.p0.z) / bbox_length.z, 0, nz - 1))
             )
 
         # Parameter deltas to increment cell
@@ -100,7 +110,7 @@ class Grid(object):
                 cell_step[axis] = -1
                 cell_stop[axis] = -1
             else:
-                t_next[axis] = t_delta[axis] * (self.n - cell[axis]) + t_min[axis]
+                t_next[axis] = t_delta[axis] * (self.n[axis] - cell[axis]) + t_min[axis]
                 cell_step[axis] = -1
                 cell_stop[axis] = -1
 

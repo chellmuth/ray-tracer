@@ -1,3 +1,4 @@
+from bbox import BoundingBox
 from geometry import Geometry, Intersection
 from point import Point3
 from vector import Vector3
@@ -24,6 +25,24 @@ class FlatMeshTriangle(object):
 
         self.normal = sum((mesh.normals[face.normal_indices[i]] for i in range(3)), Vector3.Zero()).normalized()
         self.material = material
+
+    def get_bbox(self):
+        p1 = self.mesh.vertices[self.index0]
+        p2 = self.mesh.vertices[self.index1]
+        p3 = self.mesh.vertices[self.index2]
+
+        return BoundingBox(
+            Point3(
+                min(p1.x, p2.x, p3.x),
+                min(p1.y, p2.y, p3.y),
+                min(p1.z, p2.z, p3.z)
+            ),
+            Point3(
+                max(p1.x, p2.x, p3.x),
+                max(p1.y, p2.y, p3.y),
+                max(p1.z, p2.z, p3.z)
+            )
+        )
 
     def intersect(self, ray):
         # pbrt "Triangle Intersection" pp. 140-145

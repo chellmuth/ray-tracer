@@ -48,4 +48,4 @@ def load_obj(filename):
                 faces.append(Face(face_vertices, face_normals))
 
     # 15704 faces
-    return Mesh(vertices, normals, faces[:5000])
+    return Mesh(vertices, normals, faces)

@@ -5,6 +5,7 @@ import scipy.misc
 from camera import Camera
 from color import RGBColor
 from geometry import Disk, Sphere, OpenCylinder, Intersection
+from grid import Grid
 from instance import Instance
 from light import AmbientLight, PointLight
 from loader import load_obj
@@ -26,12 +27,17 @@ class World(object):
         self.data = numpy.zeros((self.view_plane.vres, self.view_plane.hres, 3), dtype=numpy.uint8)
 
         mesh = load_obj("teapot.obj")
+        triangles = []
         for face in mesh.faces:
-            triangle = FlatMeshTriangle(mesh, face, material=Phong(RGBColor.Red()))
+            triangles.append(FlatMeshTriangle(mesh, face, material=None))
+            # triangle = FlatMeshTriangle(mesh, face, material=Phong(RGBColor.Red()))
             # triangle.scale(3.5, 3.5, 3.5)
             # triangle.rotate_y(-math.pi / 10)
             # triangle.translate(-1.3, 3.5, -25.0)
-            self.add_geometry(triangle)
+        grid = Grid()
+        grid.setup(triangles)
+
+        self.add_geometry(grid)
 
         self.ambient_light = AmbientLight()
         self.lights = [ PointLight(Point3(8.0, 2.0, 5.0)) ]
