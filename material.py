@@ -61,6 +61,7 @@ class Phong(Material):
                 if not light.is_shadowed(shadow_ray, world):
                     diffuse = self.diffuse_brdf.f()
                     specular = self.specular_brdf.f(shading_record, w_out, w_in)
+
                     L += ((diffuse + specular) * light.L()).mult(dot)
 
         return L

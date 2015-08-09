@@ -36,18 +36,27 @@ class World(object):
 
         else:
             for face in mesh.faces:
-                triangle = Instance(SmoothMeshTriangle(mesh, face, material=None))
-                triangle.rotate_y(math.pi/8.0)
-                triangle.rotate_x(math.pi/8.0)
-                triangle.translate(-5, 0, 0)
+                triangle = Instance(SmoothMeshTriangle(mesh, face, material=Normal()))
+                triangle.scale(0.015, 0.015, 0.015)
+                triangle.rotate_y(math.pi/10.0)
+                triangle.translate(-1, -1, -5)
                 triangles.append(triangle)
+
+            disk = Instance(Disk(Point3(0, 0, 0), Vector3(0, 0, 1), 5, material=Matte(RGBColor(0.9, 0.9, 0.9))))
+            disk.translate(0, 0, -10)
+
+            self.add_geometry(disk)
+
+            # sphere = Instance(Sphere(Point3(0, 0, 0), 1, material=Matte(RGBColor.Red())))
+            # sphere.translate(-1, 0, -5)
+
             grid = Grid()
             grid.setup(triangles)
 
             self.add_geometry(grid)
 
         self.ambient_light = AmbientLight()
-        self.lights = [ PointLight(Point3(8.0, 2.0, 5.0)) ]
+        self.lights = [ PointLight(Point3(-2.5, -1.5, -1.0)) ]
 
     def add_geometry(self, geometry):
         self.geometry.append(geometry)
