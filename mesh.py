@@ -77,7 +77,7 @@ class Triangle(object):
         if t < epsilon:
             return Intersection.Miss()
 
-        return Intersection.Hit(t, self._interpolate_normal(b1, b2))
+        return Intersection.Hit(t, self._interpolate_normal(b1, b2), self.material)
 
 
 class SmoothMeshTriangle(Triangle):

@@ -60,7 +60,14 @@ class World(object):
         for geometry in self.geometry:
             intersection = geometry.intersect(ray)
             if intersection.is_hit and intersection.is_closer(closest_hit.intersection):
-                shading_record = ShadingRecord(self.ambient_light, self.lights, geometry.material, intersection.normal, ray, ray.extrapolate(intersection.t))
+                shading_record = ShadingRecord(
+                    self.ambient_light,
+                    self.lights,
+                    intersection.material,
+                    intersection.normal,
+                    ray,
+                    ray.extrapolate(intersection.t)
+                )
                 closest_hit = TraceResult(intersection, shading_record)
 
         return closest_hit

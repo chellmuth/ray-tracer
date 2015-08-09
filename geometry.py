@@ -11,16 +11,17 @@ epsilon = 0.001
 class Intersection(object):
     @classmethod
     def Miss(cls):
-        return cls(False, float('inf'), None)
+        return cls(False, float('inf'), None, None)
 
     @classmethod
-    def Hit(cls, t, normal):
-        return cls(True, t, normal)
+    def Hit(cls, t, normal, material):
+        return cls(True, t, normal, material)
 
-    def __init__(self, is_hit, t, normal):
+    def __init__(self, is_hit, t, normal, material):
         self.is_hit = is_hit
         self.t = t
         self.normal = normal
+        self.material = material
 
     def is_closer(self, other):
         return self.t < other.t
@@ -66,12 +67,12 @@ class Sphere(Geometry):
 
         if t > epsilon:
             normal = (temp + ray.direction.mult(t)).normalized()
-            return Intersection.Hit(t, normal)
+            return Intersection.Hit(t, normal, self.material)
 
         t = (-b + e) / denom
         if t > epsilon:
             normal = (temp + ray.direction.mult(t)).normalized()
-            return Intersection.Hit(t, normal)
+            return Intersection.Hit(t, normal, self.material)
 
         return Intersection.Miss()
 
@@ -85,6 +86,20 @@ class Disk(Geometry):
         self.radius = radius
         self.material = material
 
+    def get_bbox(self):
+        return BoundingBox(
+            Point3(
+                self.center.x - self.radius,
+                self.center.y - self.radius,
+                -epsilon
+            ),
+            Point3(
+                self.center.x + self.radius,
+                self.center.y + self.radius,
+                epsilon
+            )
+        )
+
     def intersect(self, ray):
         # plug (o + td) ray into (p - a) * n = 0 plane equation
         # (o + td - a) * n = 0
@@ -94,7 +109,7 @@ class Disk(Geometry):
         if t <= epsilon: return Intersection.Miss()
 
         if self.center.squared_distance(ray.extrapolate(t)) < self.radius ** 2:
-            return Intersection.Hit(t, self.normal)
+            return Intersection.Hit(t, self.normal, self.material)
 
         return Intersection.Miss()
 
@@ -125,13 +140,13 @@ class OpenCylinder(object):
         if t > epsilon:
             hit = ray.extrapolate(t)
             normal = Vector3(hit.x - self.center.x, 0, hit.z - self.center.z).normalized()
-            return Intersection.Hit(t, normal)
+            return Intersection.Hit(t, normal, self.material)
 
         t = (-b + e) / denom
         if t > epsilon:
             hit = ray.extrapolate(t)
             normal = Vector3(hit.x - self.center.x, 0, hit.z - self.center.z).normalized()
-            return Intersection.Hit(t, normal)
+            return Intersection.Hit(t, normal, self.material)
 
         return Intersection.Miss()
 
