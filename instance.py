@@ -5,6 +5,8 @@ from point import Point3
 
 class Instance(Geometry):
     def __init__(self, geometry):
+        super(Instance, self).__init__()
+
         self.geometry = geometry
         self.inverse = Matrix4.Identity()
         self.forward = Matrix4.Identity()

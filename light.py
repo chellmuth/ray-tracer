@@ -26,7 +26,7 @@ class PointLight(Light):
     def is_shadowed(self, ray, world):
         distance = self.location.distance(ray.origin)
         for geometry in world.geometry:
-            intersection = geometry.intersect(ray)
+            intersection = geometry.shadow_intersect(ray)
             if intersection.is_hit and intersection.t < distance:
                 return True
         return False

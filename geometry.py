@@ -28,11 +28,20 @@ class Intersection(object):
 
 
 class Geometry(object):
-    pass
+    def __init__(self):
+        self.casts_shadows = True
+
+    def shadow_intersect(self, ray):
+        if self.casts_shadows:
+            return self.intersect(ray)
+        else:
+            return Intersection.Miss()
 
 
 class Sphere(Geometry):
     def __init__(self, center, radius, material):
+        super(Sphere, self).__init__()
+
         self.center = center
         self.radius = radius
         self.material = material
@@ -78,6 +87,7 @@ class Sphere(Geometry):
 
     def __repr__(self):
         return "C: (%s), r: %s" % (self.center, self.radius)
+
 
 class Disk(Geometry):
     def __init__(self, center, normal, radius, material):

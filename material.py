@@ -42,6 +42,10 @@ class Normal(Material):
         b = (normal.z + 1.0) / 2.0
         return RGBColor(r, g, b)
 
+class Emissive(Material):
+    def shade(self, shading_record, world):
+        return RGBColor.White()
+
 class Phong(Material):
     def __init__(self, color):
         self.ambient_brdf = Lambertian(color)

@@ -4,7 +4,7 @@ import itertools
 from util import clamp
 from vector import Vector3
 
-from geometry import Intersection
+from geometry import Intersection, Geometry
 from material import Normal
 
 epsilon = 0.001
@@ -38,8 +38,9 @@ class MultiplierCellStrategy(CellStrategy):
 
 Interval = collections.namedtuple("Interval", ["min", "max"])
 
-class Grid(object):
+class Grid(Geometry):
     def __init__(self, cell_strategy=None):
+        super(Grid, self).__init__()
         self.cell_strategy = cell_strategy or MultiplierCellStrategy()
 
     def setup(self, objects):
